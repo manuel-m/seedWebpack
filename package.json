@@ -1,0 +1,23 @@
+{
+  "name": "webbackSurviveJs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dist": "node_modules/.bin/webpack -p",
+    "build": "node_modules/.bin/webpack",
+    "dev": "node_modules/.bin/webpack-dev-server --inline --hot"
+  },
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "html-webpack-plugin": "^2.24.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-merge": "^0.15.0",
+    "webpack-validator": "^2.2.9"
+  },
+  "dependencies": {
+    "react": "^15.3.2"
+  }
+}
