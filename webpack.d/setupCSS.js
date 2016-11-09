@@ -1,10 +1,12 @@
-module.exports = function(paths_) {
+const $m = require('./m');
+
+module.exports = function() {
   return {
     module: {
       loaders: [{
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: paths_
+        include: $m.PATHS.styles
       }]
     }
   };

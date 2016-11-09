@@ -4,8 +4,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'),
   validate = require('webpack-validator');
 
 const devServer = require('./webpack.d/devServer'),
+  clean = require('./webpack.d/clean'),
   extractBundle = require('./webpack.d/extractBundle'),
   minify = require('./webpack.d/minify'),
+  output = require('./webpack.d/output'),
   setFreeVariable = require('./webpack.d/setFreeVariable'),
   setupCSS = require('./webpack.d/setupCSS');
 
@@ -27,10 +29,7 @@ const common = {
   entry: {
     app: $m.PATHS.app
   },
-  output: {
-    path: $m.PATHS.build,
-    filename: '[name].js'
-  },
+  output: output(),
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Webpack training'
@@ -38,16 +37,15 @@ const common = {
   ]
 };
 
-const config = merge(
-  common,
+const config = merge(common,
+  clean(),
   devServer({ port: 3000 }),
   extractBundle({
     name: 'vendors',
     entries: $m.vendors
-      // entries: ['react']
   }),
   minify(),
-  setupCSS($m.PATHS.styles),
+  setupCSS(),
   setFreeVariable({
     name: 'process.env.NODE_ENV',
     value: 'production'

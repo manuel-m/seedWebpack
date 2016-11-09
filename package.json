@@ -9,6 +9,7 @@
     "dev": "node_modules/.bin/webpack-dev-server --inline --hot"
   },
   "devDependencies": {
+    "clean-webpack-plugin": "^0.1.14",
     "css-loader": "^0.25.0",
     "html-webpack-plugin": "^2.24.1",
     "style-loader": "^0.13.1",
