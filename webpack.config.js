@@ -1,30 +1,34 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin'),
+  merge = require('webpack-merge'),
+  path = require('path'),
+  validate = require('webpack-validator');
 
-const merge = require('webpack-merge');
-const path = require('path');
-const validate = require('webpack-validator');
+const devServer = require('./webpack.d/devServer'),
+  extractBundle = require('./webpack.d/extractBundle'),
+  minify = require('./webpack.d/minify'),
+  setFreeVariable = require('./webpack.d/setFreeVariable'),
+  setupCSS = require('./webpack.d/setupCSS');
 
+const pkg = require('./package.json');
+const $m = require('./webpack.d/m');
 
-const devServer = require('./webpack.d/devServer');
-const setFreeVariable = require('./webpack.d/setFreeVariable');
-const minify = require('./webpack.d/minify');
-const setupCSS = require('./webpack.d/setupCSS');
-
-const task = process.env.npm_lifecycle_event;
-
-const PATHS = {
-  app: path.join(__dirname, 'src/app'),
-  styles: path.join(__dirname, 'src/app/styles'),
-  build: path.join(__dirname, 'build')
-};
+Object.assign($m, {
+  PATHS: {
+    app: path.join(__dirname, 'src/app'),
+    styles: path.join(__dirname, 'src/app/styles'),
+    build: path.join(__dirname, 'build')
+  },
+  task: process.env.npm_lifecycle_event,
+  vendors: Object.keys(pkg.dependencies)
+});
 
 const common = {
-
+  devtool: ($m.task === 'dev') ? 'eval-source-map' : 'source-map',
   entry: {
-    app: PATHS.app
+    app: $m.PATHS.app
   },
   output: {
-    path: PATHS.build,
+    path: $m.PATHS.build,
     filename: '[name].js'
   },
   plugins: [
@@ -35,15 +39,18 @@ const common = {
 };
 
 const config = merge(
-  common, {
-    devtool: (task === 'dev') ? 'eval-source-map' : 'source-map'
-  },
-  setupCSS(PATHS.styles),
-  (task === 'dist') ? setFreeVariable(
-    'process.env.NODE_ENV',
-    'production'
-  ) : {},
-  (task === 'dist') ? minify : {},
-  devServer({ port: 3000 }));
+  common,
+  devServer({ port: 3000 }),
+  extractBundle({
+    name: 'vendors',
+    entries: $m.vendors
+      // entries: ['react']
+  }),
+  minify(),
+  setupCSS($m.PATHS.styles),
+  setFreeVariable({
+    name: 'process.env.NODE_ENV',
+    value: 'production'
+  }));
 
 module.exports = validate(config);

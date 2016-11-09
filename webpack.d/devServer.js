@@ -1,7 +1,8 @@
 const webpack = require('webpack');
+const $m = require('./m');
 
-module.exports = function(config_) {
-  return {
+module.exports = function (config_) {
+  if ($m.task === 'dev') return {
     devServer: {
       // Enable history API fallback so HTML5 History API based
       // routing works. This is a good default that will come
