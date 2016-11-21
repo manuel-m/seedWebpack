@@ -1,6 +1,9 @@
 const $m = require('./m');
 
-module.exports = function() {
+module.exports = function () {
+
+  if ($m.task !== 'dev') return;
+
   return {
     module: {
       loaders: [{
