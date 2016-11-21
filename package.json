@@ -4,15 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dist": "node_modules/.bin/webpack -p",
-    "build": "node_modules/.bin/webpack",
-    "dev": "node_modules/.bin/webpack-dev-server --inline --hot"
+    "dist": "node_modules/.bin/webpack &&  cd build && python -m SimpleHTTPServer 3000",
+    "build": "node_modules/.bin/webpack && cd build && python -m SimpleHTTPServer 3000",
+    "dev": "node_modules/.bin/webpack-dev-server --inline --hot",
+    "serv": "cd build && python -m SimpleHTTPServer 3000"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.14",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.24.1",
+    "purifycss-webpack-plugin": "^2.0.3",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2",
@@ -20,6 +22,7 @@
     "webpack-validator": "^2.2.9"
   },
   "dependencies": {
+    "purecss": "^0.6.0",
     "react": "^15.3.2"
   }
 }

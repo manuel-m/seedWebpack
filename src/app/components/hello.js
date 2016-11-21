@@ -1,7 +1,8 @@
 module.exports = function () {
-  var element = document.createElement('h1');
+    var element = document.createElement('h1');
 
-  element.innerHTML = 'Webpack training (!!!)';
+    element.className = 'pure-button';
+    element.innerHTML = 'Webpack training!!!';
 
-  return element;
+    return element;
 };
